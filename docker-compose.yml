@@ -1,0 +1,57 @@
+# docker-compose.yml
+services:
+  namenode:
+    image: bde2020/hadoop-namenode
+    container_name: hdfs-nn1
+    environment:
+      - CLUSTER_NAME=localhdfs
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - HDFS_CONF_dfs_replication=2
+      - HDFS_CONF_dfs_namenode_name_dir=/hdfs/namenode
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+    ports:
+      - "9870:9870"    # Namenode Web UI
+      - "9820:9820"    # Namenode IPC
+      - "8020:8020"   # Namenode RPC
+    volumes:
+      - ./data/nn:/hdfs/namenode
+
+  datanode1:
+    image: bde2020/hadoop-datanode
+    container_name: hdfs-dtn1
+    depends_on:
+      - namenode
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - HDFS_CONF_dfs_datanode_data_dir=/hdfs/datanode
+    volumes:
+      - ./data/dn1:/hdfs/datanode
+
+  datanode2:
+    image: bde2020/hadoop-datanode
+    container_name: hdfs-dtn2
+    depends_on:
+      - namenode
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - HDFS_CONF_dfs_datanode_data_dir=/hdfs/datanode
+    volumes:
+      - ./data/dn2:/hdfs/datanode
+
+  client:
+    image: maven:3.8.6-openjdk-11    # 直接用官方镜像
+    container_name: hdfs-client
+    working_dir: /workspace/java-client
+    volumes: 
+      - ./javaApiHdfs/hdfsUtils:/workspace/java-client
+    depends_on:
+      - namenode
+      - datanode1
+      - datanode2
+    tty: true
+    entrypoint: ["tail", "-f", "/dev/null"]
+    stdin_open: true
+
+networks:
+  hadoop-net:
+    driver: bridge

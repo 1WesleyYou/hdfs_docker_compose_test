@@ -1,0 +1,8 @@
+{
+  "name": "HDFS Java Client Devcontainer",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "client",
+  "workspaceFolder": "/workspace/java-client",
+  "shutdownAction": "stopCompose",
+  "runServices": ["namenode", "datanode1", "datanode2", "client"]
+}
