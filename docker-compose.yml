@@ -15,6 +15,8 @@ services:
       - "8020:8020"   # Namenode RPC
     volumes:
       - ./data/nn:/hdfs/namenode
+      - ./conf/hdfs-site.xml:/opt/hadoop-3.2.1/etc/hadoop/hdfs-site.xml:ro
+      - ./conf/core-site.xml:/opt/hadoop-3.2.1/etc/hadoop/core-site.xml:ro
 
   datanode1:
     image: bde2020/hadoop-datanode
@@ -26,6 +28,8 @@ services:
       - HDFS_CONF_dfs_datanode_data_dir=/hdfs/datanode
     volumes:
       - ./data/dn1:/hdfs/datanode
+      - ./conf/hdfs-site.xml:/opt/hadoop-3.2.1/etc/hadoop/hdfs-site.xml:ro
+      - ./conf/core-site.xml:/opt/hadoop-3.2.1/etc/hadoop/core-site.xml:ro
 
   datanode2:
     image: bde2020/hadoop-datanode
@@ -37,6 +41,8 @@ services:
       - HDFS_CONF_dfs_datanode_data_dir=/hdfs/datanode
     volumes:
       - ./data/dn2:/hdfs/datanode
+      - ./conf/hdfs-site.xml:/opt/hadoop-3.2.1/etc/hadoop/hdfs-site.xml:ro
+      - ./conf/core-site.xml:/opt/hadoop-3.2.1/etc/hadoop/core-site.xml:ro
 
   client:
     image: maven:3.8.6-openjdk-11    # 直接用官方镜像
