@@ -51,5 +51,9 @@
     <name>dfs.blockreport.incremental.intervalMsec</name>
     <value>1000</value>
   </property>
+  <property>
+    <name>dfs.namenode.file.close.num-committed-allowed</name>
+    <value>0</value>
+  </property>
 
 </configuration>
