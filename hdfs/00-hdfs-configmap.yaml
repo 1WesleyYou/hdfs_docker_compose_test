@@ -1,0 +1,75 @@
+# define the configuration of HDFS, just the same one as the xml for hdfs
+# itself as we use in docker-compose.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hdfs-config
+  namespace: hdfs-chaos
+data:
+  core-site.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+    <configuration>
+      <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://namenode:8020</value>
+      </property>
+    </configuration>
+
+  hdfs-site.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    
+    <configuration>
+      <!-- 数据副本数 -->
+      <property>
+        <name>dfs.replication</name>
+        <value>2</value>
+      </property>
+    
+      <!-- NameNode 存储目录 -->
+      <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/hdfs/namenode</value>
+      </property>
+    
+      <!-- NameNode 对外绑定地址 -->
+      <property>
+        <name>dfs.namenode.rpc-bind-host</name>
+        <value>0.0.0.0</value>
+      </property>
+      <property>
+        <name>dfs.namenode.servicerpc-bind-host</name>
+        <value>0.0.0.0</value>
+      </property>
+      <property>
+        <name>dfs.namenode.http-bind-host</name>
+        <value>0.0.0.0</value>
+      </property>
+      <property>
+        <name>dfs.namenode.https-bind-host</name>
+        <value>0.0.0.0</value>
+      </property>
+    
+      <!-- 强制使用 hostname 而非 IP -->
+      <property>
+        <name>dfs.client.use.datanode.hostname</name>
+        <value>true</value>
+      </property>
+      <property>
+        <name>dfs.datanode.use.datanode.hostname</name>
+        <value>true</value>
+      </property>
+    
+      <!-- **新增**：缩短增量 BlockReport 报告间隔到 1 秒 -->
+      <property>
+        <name>dfs.blockreport.incremental.intervalMsec</name>
+        <value>1000</value>
+      </property>
+      <property>
+        <name>dfs.namenode.file.close.num-committed-allowed</name>
+        <value>0</value>
+      </property>
+    
+    </configuration>

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hdfs-datanode
+  namespace: hdfs-chaos
+  labels:
+    app: hdfs
+    role: datanode
+spec:
+  serviceName: hdfs-headless
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hdfs
+      role: datanode
+  template:
+    metadata:
+      labels:
+        app: hdfs
+        role: datanode
+    spec:
+      containers:
+      - name: datanode
+        image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+        command: ["hdfs", "datanode"]
+        ports:
+        - containerPort: 9864
+          name: dn-http
+        volumeMounts:
+        - name: dn-storage
+          mountPath: /data/datanode
+        - name: hdfs-config
+          mountPath: /etc/hadoop
+      volumes:                    # ← 移到这里
+      - name: hdfs-config
+        configMap:
+          name: hdfs-config
+  volumeClaimTemplates:
+  - metadata:
+      name: dn-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: "local-path"
