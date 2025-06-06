@@ -63,7 +63,7 @@ echo > "build_hdfs_t2c.sh" << EOF
 # change variable value according to folder location
 hdfs_dir=/users/yuchenxr/hadoop
 t2c_dir=/users/T2C
-script_dir=${t2c_dir}/conf/scripts/hdfs
+script_dir=${t2c_dir}/experiments/detection/hdfs/HDFS16942
 version=3.1.3
 
 cd $hdfs_dir
@@ -88,3 +88,7 @@ cd $t2c_dir
 cp $script_dir/core-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
 cp $script_dir/hdfs-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
 << EOF
+
+cd ${t2c_dir}/conf/samples/hdfs-3.1.3.properties 
+
+echo "[\033[0mTODO\033[0m] Change the system_dir_path to /users/yuchenxr/hadoop/"
