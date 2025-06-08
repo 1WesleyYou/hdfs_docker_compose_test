@@ -7,34 +7,37 @@ sudo apt-get install ninja-build gettext cmake curl build-essential fish -y
 
 sudo apt-get install -y git maven ant vim openjdk-8-jdk golang-go gnuplot zsh
 sudo update-alternatives --set java $(sudo update-alternatives --list java | grep "java-8")
-git clone https://github.com/neovim/neovim
-cd neovim 
-git checkout stable
-make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install 
-echo "[\033[0mINFO\033[0m] Neovim installed successfully."
+
+# cd neovim || exit 1
+# make CMAKE_BUILD_TYPE=RelWithDebInfo
+# sudo make install 
+# printf "[\033[0mINFO\033[0m] Neovim installed successfully."
 
 sudo chsh -s /usr/bin/fish
 
-git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
-rm -rf ~/.config/nvim/.git
-git clone https://github.com/1WesleyYou/personal_configs.git
-cp -r personal_configs/nvim/* ~/.config/nvim/
+# git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
+# rm -rf ~/.config/nvim/.git
+# git clone https://github.com/1WesleyYou/personal_configs.git
+# cp -r personal_configs/nvim/* ~/.config/nvim/
+cp nvim/nvim /usr/local/bin/nvim
+cp -r nvim ~/.config
 
-cd ~
+cd ~ || exit 1
 
-wget https://github.com/protocolbuffers/protobuf/releases/download/v2.5.0/protobuf-2.5.0.zip
+# cd protobuf-2.5.0
+#
+# ./configure
+#
+# make 
+#
+# make check
+#
+# sudo make install
 
-unzip protobuf-2.5.0.zip
-cd protobuf-2.5.0
+sudo cp dll/protoc /usr/local/bin/ 
+sudo chmod +x /usr/local/bin/protoc
 
-./configure
-
-make 
-
-make check
-
-sudo make install
+sudo cp -r dll/* /usr/local/lib/
 
 sudo ldconfig
 
@@ -76,8 +79,8 @@ cd $t2c_dir
 # copy config files
 cp $script_dir/core-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
 cp $script_dir/hdfs-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
-<< EOF
+EOF
 
-cd ${t2c_dir}/conf/samples/hdfs-3.1.3.properties 
+# cd ${t2c_dir}/conf/samples/hdfs-3.1.3.properties  || exit 1
 
 echo "[\033[0mTODO\033[0m] Change the system_dir_path to /users/yuchenxr/hadoop/"
