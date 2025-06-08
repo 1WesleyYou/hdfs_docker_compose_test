@@ -2,21 +2,18 @@
 
 sudo apt-get update
 
-sudo apt-get install autoconf automake libtool curl make g++ unzip
-sudo apt-get install ninja-build gettext cmake curl build-essential
+sudo apt-get install autoconf automake libtool curl make g++ unzip -y
+sudo apt-get install ninja-build gettext cmake curl build-essential fish -y
 
 sudo apt-get install -y git maven ant vim openjdk-8-jdk golang-go gnuplot zsh
 sudo update-alternatives --set java $(sudo update-alternatives --list java | grep "java-8")
-sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/neovim/neovim
 cd neovim 
 git checkout stable
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install 
-echo "[\033[0mINFO\033[0m] Neovim and Oh-My-Zsh installed successfully."
+echo "[\033[0mINFO\033[0m] Neovim installed successfully."
 
-wget fish_4.0.2-2~jammy_amd64.deb
-sudo dpkg -i fish_4.0.2-2~jammy_amd64.deb
 sudo chsh -s /usr/bin/fish
 
 git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
@@ -45,21 +42,13 @@ echo -e "[\033[0mINFO\033[0m] Protobuf installed successfully."
 
 cd ~ 
 
-git clone https://github.com/apache/hadoop.git
-cd hadoop
-git checkout rel/release-3.1.3
-
-mvn clean package -Pdist -DskipTests -Dtar
-
-cd ~
-
 git clone https://github.com/OrderLab/T2C.git
 
 cd T2C
 
 touch build_hdfs_t2c.sh
 
-echo > "build_hdfs_t2c.sh" << EOF
+cat > "build_hdfs_t2c.sh" << EOF
 # change variable value according to folder location
 hdfs_dir=/users/yuchenxr/hadoop
 t2c_dir=/users/T2C
