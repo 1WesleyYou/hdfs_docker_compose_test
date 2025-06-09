@@ -14,12 +14,12 @@
 
 ## Erasure Coding Recovery
 
-| Issue ID | Version | Trigger | Description | Resolution |
-|------------|---------|------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| HDFS-15186 | 3.1.3 | Simultaneous decommission of multiple DataNodes in an EC-enabled cluster | Duplicate `targetIndices` in `StripedReconstructionInfo` cause the EC decoder to treat a source index as a target, producing parity blocks full of zeros :contentReference[oaicite:0]{index=0} | Deduplicate the `targetIndices` in `StripedWriter#initTargetIndices` so that only unique block indices are passed to the EC algorithm. Patch merged in 3.1.4, 3.2.2, and 3.3.0. |
+| Issue ID | Version | Trigger | Description | 
+|------------|---------|------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| 15186 | 3.1.3 | Simultaneous decommission of multiple DataNodes in an EC-enabled cluster | Duplicate `targetIndices` in `StripedReconstructionInfo` cause the EC decoder to treat a source index as a target, producing parity blocks full of zeros |
 
 ## Downgrade Compatibility
 
 | Issue ID | Version | Trigger | Description | Resolution |
 |------------|---------|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| HDFS-14831 | 3.1.3 | Downgrading from Hadoop 3.2.0 down to 2.7.x | Incompatible changes to the FSImage `StringTable` (commit `8a41edb089fbdedc5e7d9a2aeec63d126afea49f`) prevent a 2.7.x NameNode from reading a 3.x fsimage, causing startup failure :contentReference[oaicite:1]{index=1} | Revert or back‐port the `StringTable` format change (apply commit `8a41edb089fbdedc5e7d9a2aeec63d126afea49f`) so that older NameNodes can read the image (see HDFS-13596), or upgrade to a release that includes this fix :contentReference[oaicite:2]{index=2}. |
+| 14831 | 3.1.3 | Downgrading from Hadoop 3.2.0 down to 2.7.x | Incompatible changes to the FSImage `StringTable` (commit `8a41edb089fbdedc5e7d9a2aeec63d126afea49f`) prevent a 2.7.x NameNode from reading a 3.x fsimage, causing startup failure :contentReference[oaicite:1]{index=1} | Revert or back‐port the `StringTable` format change (apply commit `8a41edb089fbdedc5e7d9a2aeec63d126afea49f`) so that older NameNodes can read the image (see HDFS-13596), or upgrade to a release that includes this fix :contentReference[oaicite:2]{index=2}. |
