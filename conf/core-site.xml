@@ -6,7 +6,6 @@
 -->
 
 <configuration>
-  <!-- 指定 NameNode 地址 -->
   <property>
     <name>fs.defaultFS</name>
     <value>hdfs://namenode:8020</value>
