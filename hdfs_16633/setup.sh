@@ -1,14 +1,14 @@
 #!/bin/bash
 
-sudo apt-get update
+sudo apt-get update 
 
-sudo apt-get install autoconf automake libtool curl make g++ unzip -y
+sudo apt-get install autoconf automake libtool curl make g++ unzip python3-pip -y
 sudo apt-get install ninja-build gettext cmake curl build-essential fish -y
 
 sudo apt-get install -y git maven ant vim openjdk-8-jdk golang-go gnuplot zsh
 sudo update-alternatives --set java $(sudo update-alternatives --list java | grep "java-8")
 
-export JAVA_HOME=$(/usr/lib/jvm/java-8-openjdk-amd64)  # Linux 路径示例
+export JAVA_HOME=$(/usr/lib/jvm/java-8-openjdk-amd64) 
 export PATH=$JAVA_HOME/bin:$PATH
 
 # cd neovim || exit 1
