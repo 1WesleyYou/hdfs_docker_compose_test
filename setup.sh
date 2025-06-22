@@ -8,6 +8,9 @@ sudo apt-get install ninja-build gettext cmake curl build-essential fish -y
 sudo apt-get install -y git maven ant vim openjdk-8-jdk golang-go gnuplot zsh
 sudo update-alternatives --set java $(sudo update-alternatives --list java | grep "java-8")
 
+export JAVA_HOME=$(/usr/lib/jvm/java-8-openjdk-amd64)  # Linux 路径示例
+export PATH=$JAVA_HOME/bin:$PATH
+
 # cd neovim || exit 1
 # make CMAKE_BUILD_TYPE=RelWithDebInfo
 # sudo make install 
@@ -19,8 +22,8 @@ sudo chsh -s /usr/bin/fish
 # rm -rf ~/.config/nvim/.git
 # git clone https://github.com/1WesleyYou/personal_configs.git
 # cp -r personal_configs/nvim/* ~/.config/nvim/
-cp nvim/nvim /usr/local/bin/nvim
-cp -r nvim ~/.config
+# cp nvim/nvim /usr/local/bin/nvim
+# cp -r nvim ~/.config
 
 cd ~ || exit 1
 
@@ -34,53 +37,25 @@ cd ~ || exit 1
 #
 # sudo make install
 
-sudo cp dll/protoc /usr/local/bin/ 
-sudo chmod +x /usr/local/bin/protoc
+# sudo cp dll/protoc /usr/local/bin/ 
+# sudo chmod +x /usr/local/bin/protoc
 
-sudo cp -r dll/* /usr/local/lib/
-
-sudo ldconfig
+# sudo cp -r dll/* /usr/local/lib/
+wget https://github.com/protocolbuffers/protobuf/releases/download/v2.5.0/protobuf-2.5.0.zip
+unzip protobuf-2.5.0.zip
+cd protobuf-2.5.0 || exit 1
+./configure
+make
+make check
+sudo make install
+sudo ldconfig # refresh shared library cache.
 
 echo -e "[\033[0mINFO\033[0m] Protobuf installed successfully."
 
 cd ~ 
 
-git clone https://github.com/OrderLab/T2C.git
+https://github.com/apache/hadoop.git
 
-cd T2C
+cd hadoop 
 
-touch build_hdfs_t2c.sh
-
-cat > "build_hdfs_t2c.sh" << EOF
-# change variable value according to folder location
-hdfs_dir=/users/yuchenxr/hadoop
-t2c_dir=/users/T2C
-script_dir=${t2c_dir}/experiments/detection/hdfs/HDFS16942
-version=3.1.3
-
-cd $hdfs_dir
-# checkout to buggy version of hdfs
-git checkout tags/rel/release-3.1.3
-
-cd $t2c_dir
-
-# compile t2c
-./run_engine.sh compile
-
-# apply patch
-./run_engine.sh patch conf/samples/hdfs-3.1.3.properties hdfs
-
-# build system
-./run_engine.sh recover_tests conf/samples/hdfs-3.1.3.properties
-
-# hdfs needs to apply patch again after recover
-./run_engine.sh patch conf/samples/hdfs-3.1.3.properties hdfs
-
-# copy config files
-cp $script_dir/core-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
-cp $script_dir/hdfs-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
-EOF
-
-# cd ${t2c_dir}/conf/samples/hdfs-3.1.3.properties  || exit 1
-
-echo "[\033[0mTODO\033[0m] Change the system_dir_path to /users/yuchenxr/hadoop/"
+mvn clean package -Pdist,native -DskipTests -Dtar
