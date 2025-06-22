@@ -3,6 +3,7 @@
 cd $1
 version='3.1.2'
 cd hadoop-dist/target/hadoop-${version}/
+rm -rf /tmp/hadoop-yuchenxr/dfs/data/  # clean up the data node history
 ./bin/hdfs namenode -format
 ./sbin/hadoop-daemon.sh start namenode
 ./sbin/hadoop-daemon.sh start datanode
