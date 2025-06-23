@@ -15,3 +15,8 @@ cp $script_dir/hdfs-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
 sed -i 's/# export JAVA_HOME=/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk-amd64\//g' hadoop-dist/target/hadoop-${version}/etc/hadoop/hadoop-env.sh
 
 export HADOOP_HOME=$(pwd)/hadoop-dist/target/hadoop-${version}
+export HDFS_NAMENODE_OPTS="$HDFS_NAMENODE_OPTS \
+  -Dcom.sun.management.jmxremote \
+  -Dcom.sun.management.jmxremote.authenticate=false \
+  -Dcom.sun.management.jmxremote.ssl=false \
+  -Dcom.sun.management.jmxremote.portV k8004"
