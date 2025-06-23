@@ -54,8 +54,8 @@ echo -e "[\033[0mINFO\033[0m] Protobuf installed successfully."
 
 cd ~ 
 
-https://github.com/apache/hadoop.git
+git clone https://github.com/apache/hadoop.git 
 
-cd hadoop 
+cd hdfs_docker_compose_test/hdfs_16633 || exit 1
 
-mvn clean package -Pdist,native -DskipTests -Dtar
+./hdfs_16633_install.sh "$(pwd)/../../hadoop"

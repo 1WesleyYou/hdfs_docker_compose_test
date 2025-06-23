@@ -12,6 +12,6 @@ mvn clean package -Pdist -DskipTests -Dmaven.javadoc.skip=true -Dtar
 cp $script_dir/core-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
 cp $script_dir/hdfs-site.xml hadoop-dist/target/hadoop-${version}/etc/hadoop/
 # configure JAVA_HOME in hadoop-env.sh
-sed -i 's/# export JAVA_HOME=/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk-amd64\//g' hadoop-dist/target/hadoop-${version}/etc/hadoop/hadoop-env.so
+sed -i 's/# export JAVA_HOME=/export JAVA_HOME=\/usr\/lib\/jvm\/java-1.8.0-openjdk-amd64\//g' hadoop-dist/target/hadoop-${version}/etc/hadoop/hadoop-env.sh
 
 export HADOOP_HOME=$(pwd)/hadoop-dist/target/hadoop-${version}
