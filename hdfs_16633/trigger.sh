@@ -5,8 +5,10 @@ version='3.1.2'
 cd hadoop-dist/target/hadoop-${version}/
 rm -rf /tmp/hadoop-yuchenxr/dfs/data/  # clean up the data node history
 ./bin/hdfs namenode -format
-./sbin/hadoop-daemon.sh start namenode
-./sbin/hadoop-daemon.sh start datanode
+./bin/hdfs --daemon start namenode
+./bin/hdfs --daemon start datanode
+# ./sbin/hadoop-daemon.sh start namenode
+# ./sbin/hadoop-daemon.sh start datanode
 echo "sleep 8 seconds"
 sleep 8
 echo "running work load"
@@ -14,5 +16,7 @@ echo "running work load"
 sleep 3
 echo "now there should be messages 'ERROR org.apache.hadoop.hdfs.server.datanode.DataNode: ubuntu:9866:DataXceiver error processing WRITE_BLOCK operation' and 'CHANG: inject IOException!' in logs/hadoop-username-datanode-hostname.log" 
 echo "now the issue is reproduced"
-./sbin/hadoop-daemon.sh stop datanode
-./sbin/hadoop-daemon.sh stop namenode
+./bin/hdfs --daemon stop datanode
+./bin/hdfs --daemon stop namenode
+# ./sbin/hadoop-daemon.sh stop datanode
+# ./sbin/hadoop-daemon.sh stop namenode
