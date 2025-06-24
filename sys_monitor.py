@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# This script is used to monitor system metrics such as user info, memory usage, disk usage, and network speed.
+# All metrics are within the local system, not connectivity with other nodes.
 
 import os
 import psutil
@@ -6,7 +8,9 @@ import time
 from loguru import logger
 import datetime
 import sys
-
+import glob
+import json
+import subprocess
 
 def view_user():
     logger.debug("User Info:")
@@ -134,7 +138,43 @@ def view_network(interval=1):
     )
 
 
-# sysMonitor = SystemMonitor()
+def view_hdfs_log():
+    hadoop_home = os.getenv("HADOOP_HOME")    
+    if not hadoop_home:
+        # logger.error("HADOOP_HOME environment variable is not set.")
+        print("[\033[31mERROR\033[0m] HADOOP_HOME environment variable is not set.")
+        sys.exit(1)
+
+    log_dir = os.path.join(hadoop_home, "logs")
+    if not os.path.isdir(log_dir):
+        print(f"[\033[31mERROR\033[0m] Hadoop log directory {log_dir} does not exist.")
+        sys.exit(1)
+
+    pattern = os.path.join(log_dir, "*.log") 
+    log_files = glob.glob(pattern)
+    if not log_files:
+        print(f"[\033[31mERROR\033[0m] No log files found in {log_dir}.")
+        sys.exit(1)
+    
+    script_path = "./tail_hadoop.sh"
+    output_file = "hdfs.log"
+
+    try:
+        with open(output_file, "w") as f:
+            subprocess.run(
+                [script_path],
+                stdout=f,
+                stderr=subprocess.PIPE,
+                check=True,
+                text=True
+            )
+            print(f"[\033[32mSUCCESS\033[0m] HDFS logs written to {output_file}.")
+    except subprocess.CalledProcessError as e:
+        print(f"[\033[31mERROR\033[0m] Failed to run {script_path}: {e.stderr.strip()}")
+        sys.exit(1)
+
+
+# sysMonitor = SystemMonitor(g g
 if __name__ == "__main__":
     logger.remove()
     # logger.add(sys.stdout, format="{message}", serialize=True, level="DEBUG")
@@ -151,3 +191,4 @@ if __name__ == "__main__":
     view_mem()
     view_disk()
     view_network()
+    view_hdfs_log()
