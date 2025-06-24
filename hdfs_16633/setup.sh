@@ -56,6 +56,6 @@ cd ~
 
 git clone https://github.com/apache/hadoop.git 
 
-cd hdfs_docker_compose_test/hdfs_16633 || exit 1
+# cd hdfs_docker_compose_test/hdfs_16633 || exit 1
 
-./hdfs_16633_install.sh "$(pwd)/../../hadoop"
+# ./hdfs_16633_install.sh "$(pwd)/../../hadoop"
