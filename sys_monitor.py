@@ -5,6 +5,7 @@ import psutil
 import time
 from loguru import logger
 import datetime
+import sys
 
 
 def view_user():
@@ -113,6 +114,17 @@ def view_network(interval=1):
 
 # sysMonitor = SystemMonitor()
 if __name__ == "__main__":
+    logger.remove()
+    # logger.add(sys.stdout, format="{message}", serialize=True, level="DEBUG")
+    logger.add(
+    "sysMetric.json",
+    rotation="10 MB",
+    retention="7 days",
+    serialize=True,
+    level="INFO",
+    )
+
+    # logger.debug("This is a debug, won't be in app.json")
     view_user()
     view_mem()
     view_disk()
