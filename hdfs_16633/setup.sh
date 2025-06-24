@@ -8,6 +8,8 @@ sudo apt-get install ninja-build gettext cmake curl build-essential fish -y
 sudo apt-get install -y git maven ant vim openjdk-8-jdk golang-go gnuplot zsh
 sudo update-alternatives --set java $(sudo update-alternatives --list java | grep "java-8")
 
+pip install -r requirements.txt
+
 export JAVA_HOME=$(/usr/lib/jvm/java-8-openjdk-amd64) 
 export PATH=$JAVA_HOME/bin:$PATH
 

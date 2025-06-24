@@ -7,8 +7,6 @@ rm -rf /tmp/hadoop-yuchenxr/dfs/data/  # clean up the data node history
 ./bin/hdfs namenode -format
 ./bin/hdfs --daemon start namenode
 ./bin/hdfs --daemon start datanode
-# ./sbin/hadoop-daemon.sh start namenode
-# ./sbin/hadoop-daemon.sh start datanode
 echo "sleep 8 seconds"
 sleep 8
 echo "running work load"
@@ -18,5 +16,3 @@ echo "now there should be messages 'ERROR org.apache.hadoop.hdfs.server.datanode
 echo "now the issue is reproduced"
 ./bin/hdfs --daemon stop datanode
 ./bin/hdfs --daemon stop namenode
-# ./sbin/hadoop-daemon.sh stop datanode
-# ./sbin/hadoop-daemon.sh stop namenode
