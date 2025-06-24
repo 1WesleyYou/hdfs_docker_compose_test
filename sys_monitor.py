@@ -173,6 +173,33 @@ def view_hdfs_log():
         print(f"[\033[31mERROR\033[0m] Failed to run {script_path}: {e.stderr.strip()}")
         sys.exit(1)
 
+def view_hdfs_report():
+    hadoop_home = os.getenv("HADOOP_HOME")    
+    if not hadoop_home:
+        # logger.error("HADOOP_HOME environment variable is not set.")
+        print("[\033[31mERROR\033[0m] HADOOP_HOME environment variable is not set.")
+        sys.exit(1)
+    log_dir = os.path.join(hadoop_home, "logs")
+    if not os.path.isdir(log_dir):
+        print(f"[\033[31mERROR\033[0m] Hadoop log directory {log_dir} does not exist.")
+        sys.exit(1)
+
+    pattern = os.path.join(log_dir, "*.log") 
+    log_files = glob.glob(pattern)
+    if not log_files:
+        print(f"[\033[31mERROR\033[0m] No log files found in {log_dir}.")
+        sys.exit(1)
+    
+    script_path = "./hdfs_16633/fetchNodeReport.sh"
+
+    try:
+        subprocess.run(
+            [script_path],
+        )
+        print(f"[\033[32mSUCCESS\033[0m] HDFS logs written to node_report.txt.")
+    except subprocess.CalledProcessError as e:
+        print(f"[\033[31mERROR\033[0m] Failed to run {script_path}: {e.stderr.strip()}")
+        sys.exit(1)
 
 # sysMonitor = SystemMonitor(g g
 if __name__ == "__main__":
@@ -192,3 +219,4 @@ if __name__ == "__main__":
     view_disk()
     view_network()
     view_hdfs_log()
+    view_hdfs_report()
